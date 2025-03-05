@@ -38,7 +38,7 @@ model Comment {
   text      String
   user      User     @relation(fields: [userid], references: [id])
   userid    Int
-  post      Post     @relation(fields: [postid], references: [id])
+  post      Post     @relation(fields: [postid], references: [id], onDelete: Cascade)
   postid    Int
   timestamp DateTime @default(now())
 }

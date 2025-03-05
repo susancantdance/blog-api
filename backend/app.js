@@ -1,5 +1,9 @@
 const express = require("express");
 const app = express();
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+const jwt = require("jsonwebtoken");
+
 const path = require("node:path");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
@@ -9,6 +13,30 @@ const { PrismaClient } = require("@prisma/client");
 
 const indexRouter = require("./routes/indexRouter");
 const postRouter = require("./routes/postRouter");
+const db = require("./db/queries");
+
+let opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = process.env.SECRET;
+// opts.passReqToCallback = true;
+passport.use(
+  new JwtStrategy(opts, async function (jwt_payload, done) {
+    console.log(jwt_payload);
+
+    // User.findOne({ id: jwt_payload.sub }, function (err, user) {
+    try {
+      const user = await db.checkUserExists(jwt_payload.id);
+      if (user) {
+        return done(null, user);
+      } else {
+        return done(null, false);
+        // or you could create a new account
+      }
+    } catch (err) {
+      return done(err, false);
+    }
+  })
+);
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
@@ -38,7 +66,7 @@ passport.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/signup", indexRouter);
+app.use("/", indexRouter);
 app.use("/posts", postRouter);
 // app.use("/posts/:postId/comments", commentsRouter);
 
