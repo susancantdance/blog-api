@@ -1,0 +1,11 @@
+.comments-title {
+  text-decoration: bold;
+  color: blue;
+  cursor: pointer;
+}
+
+.close {
+  text-decoration: bold;
+  color: red;
+  cursor: pointer;
+}
