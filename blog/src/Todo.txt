@@ -1,0 +1,6 @@
+Truncate blog post on main page
+Link / Page to single blog post to create comment
+Authorization to create comment
+
+delete own comment? 
+edit own comment?

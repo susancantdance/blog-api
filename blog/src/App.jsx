@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { Comments } from "./comments.jsx";
+import { Header } from "./header.jsx";
+import { BlogContext } from "./context.jsx";
 
 import "./App.css";
 
 function App() {
   const [posts, setPosts] = useState([]);
+  // const [user, setUser] = useState({ id: "", username: "" });
 
   useEffect(() => {
     fetch("http://localhost:3000/posts", {
@@ -23,24 +26,36 @@ function App() {
 
   return (
     <div>
-      <h1>Clog (Cat Log)</h1>
-      <div className="posts">
-        <ul>
-          {posts.map((post) => {
-            return (
-              <li key={post.id}>
-                <b>{post.title}</b>
-                <br></br>
-                {post.body}
-                <br></br>
-                <Comments postid={post.id} key={post.id} />
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <BlogContext.Provider value={{ posts }}>
+        <Header
+        // token={localStorage.getItem("jwtToken")}
+        // user={user}
+        // setUser={setUser}
+        />
+        <h1>Clog (Cat Log)</h1>
+        <div>
+          <ul className="posts">
+            {posts.map((post) => {
+              return (
+                <li key={post.id}>
+                  <b>{post.title}</b>
+                  <br></br>
+                  {post.body}
+                  <br></br>
+                  <Comments
+                    postid={post.id}
+                    key={post.id}
+                    comments={post.comments}
+                    user={localStorage.getItem("id")}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </BlogContext.Provider>
     </div>
   );
 }
 
-export default App;
+export { App };
