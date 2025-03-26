@@ -7,7 +7,7 @@ import { Link } from "react-router";
 // import { Post } from "./post";
 import "./allposts.css";
 
-function AllPosts({ posts, setPosts, post, setPost, display, setDisplay }) {
+function AllPosts({ posts, setPost, setDisplay }) {
   //   const [post, setPost] = useState(null);
 
   //   useEffect(() => {
@@ -35,14 +35,24 @@ function AllPosts({ posts, setPosts, post, setPost, display, setDisplay }) {
     // navigate("edit/" + postToEdit);
   };
 
+  const editComments = (postToEdit) => {
+    setPost(postToEdit);
+    setDisplay("comments");
+  };
+
+  const createPost = () => {
+    setPost({ title: "", body: "" });
+    setDisplay("singlepost");
+  };
+
   //   if (post == null) {
   return (
     <>
       <h1>Your Clog Dashboard</h1>
-      {/* <Link to="/">
-        <button>Create New Post</button>{" "}
-      </Link> */}
-      <div>
+      <div className="create">
+        <button onClick={createPost}>Create New Post</button>{" "}
+      </div>
+      <div className="postcontainer">
         <ul className="posts">
           {posts.map((pst) => {
             return (
@@ -54,8 +64,21 @@ function AllPosts({ posts, setPosts, post, setPost, display, setDisplay }) {
                 <br></br>
                 {/* <form onSubmit={() => toggleEditing(pst)}> */}
                 <button type="button" onClick={() => toggleEditing(pst)}>
-                  Edit
+                  Edit Post
+                </button>{" "}
+                <button
+                  className="edit"
+                  type="button"
+                  onClick={() => editComments(pst)}
+                >
+                  Edit Comments ({pst.comments.length})
                 </button>
+                {pst.ispublished ? (
+                  <span>
+                    {" "}
+                    <span className="published"> **Published**</span>
+                  </span>
+                ) : null}
                 {/* </form> */}
               </li>
             );

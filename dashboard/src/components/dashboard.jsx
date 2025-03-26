@@ -7,6 +7,7 @@ function Dashboard() {
   const [posts, setPosts] = useState([]);
   const [post, setPost] = useState(null);
   const [display, setDisplay] = useState("allposts");
+  //   const [comments, setComments] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:3000/posts", {
@@ -20,28 +21,16 @@ function Dashboard() {
         console.log(data);
         setPosts(data);
       });
-  }, []);
+  }, [display]);
 
   return (
     <>
       {display == "allposts" ? (
-        <AllPosts
-          posts={posts}
-          setPosts={setPosts}
-          post={post}
-          setPost={setPost}
-          setDisplay={setDisplay}
-          display={display}
-        />
+        <AllPosts posts={posts} setPost={setPost} setDisplay={setDisplay} />
       ) : display == "singlepost" ? (
-        <Post
-          posts={posts}
-          setPosts={setPosts}
-          post={post}
-          setPost={setPost}
-          setDisplay={setDisplay}
-          display={display}
-        />
+        <Post post={post} setDisplay={setDisplay} />
+      ) : display == "comments" ? (
+        <Post post={post} setDisplay={setDisplay} comments={true} />
       ) : null}
     </>
   );

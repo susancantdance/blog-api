@@ -28,11 +28,13 @@ function Login() {
         const isauthor = data.isauthor;
         const token = data.token;
         const user = data.id;
+        const userid = data.userid;
         console.log(isauthor);
         if (isauthor) {
           localStorage.setItem("jwtToken", token);
           localStorage.setItem("id", user);
           localStorage.setItem("author", true);
+          localStorage.setItem("userid", userid);
           navigate("/dashboard");
         } else {
           navigate("/401");
