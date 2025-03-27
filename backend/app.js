@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const jwt = require("jsonwebtoken");
@@ -21,6 +22,7 @@ opts.secretOrKey = process.env.SECRET;
 // opts.passReqToCallback = true;
 passport.use(
   new JwtStrategy(opts, async function (jwt_payload, done) {
+    console.log("in JWT strategy");
     console.log(jwt_payload);
 
     // User.findOne({ id: jwt_payload.sub }, function (err, user) {
@@ -62,6 +64,9 @@ passport.use(
     }
   })
 );
+
+app.options("*", cors());
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

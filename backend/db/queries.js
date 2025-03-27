@@ -53,7 +53,12 @@ async function isAuthor(id) {
 async function getPosts() {
   const posts = await prisma.post.findMany({
     include: {
-      comments: true,
+      comments: {
+        include: {
+          user: true,
+        },
+      },
+      author: true,
     },
   });
   return posts;
@@ -65,6 +70,14 @@ async function getSinglePost(id) {
     where: {
       id: id,
     },
+    include: {
+      author: true,
+      comments: {
+        include: {
+          user: true,
+        },
+      },
+    },
   });
 
   return post;
@@ -75,6 +88,9 @@ async function getComments(postid) {
   const comments = await prisma.comment.findMany({
     where: {
       postid: postid,
+    },
+    include: {
+      user: true,
     },
   });
   return comments;
@@ -119,11 +135,25 @@ async function deletePost(id) {
   return deleted;
 }
 
+//get User ID
+async function getUserId(email) {
+  const id = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+    select: {
+      id: true,
+    },
+  });
+  console.log(id);
+  return id;
+}
+
 //create a comment
-async function createComment(id, text, userid) {
+async function createComment(postid, text, userid) {
   const comment = await prisma.comment.create({
     data: {
-      postid: id,
+      postid: postid,
       text: text,
       userid: userid,
     },
@@ -168,4 +198,5 @@ module.exports = {
   createComment,
   updateComment,
   deleteComment,
+  getUserId,
 };

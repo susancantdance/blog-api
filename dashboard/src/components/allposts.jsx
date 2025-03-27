@@ -3,7 +3,7 @@ import { Link } from "react-router";
 // import { useState } from "react";
 //
 // import { PostContext } from "../App";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import { Post } from "./post";
 import "./allposts.css";
 
@@ -24,7 +24,7 @@ function AllPosts({ posts, setPost, setDisplay }) {
   //       });
   //   }, []);
 
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const toggleEditing = (postToEdit) => {
     setPost(postToEdit);
@@ -45,18 +45,28 @@ function AllPosts({ posts, setPost, setDisplay }) {
     setDisplay("singlepost");
   };
 
+  const logout = () => {
+    localStorage.clear("jwtToken");
+    localStorage.clear("id");
+    localStorage.clear("userid");
+    localStorage.clear("author");
+    navigate("/");
+  };
+
   //   if (post == null) {
   return (
     <>
       <h1>Your Clog Dashboard</h1>
       <div className="create">
         <button onClick={createPost}>Create New Post</button>{" "}
+        <button onClick={logout}>Log Out</button>
       </div>
+
       <div className="postcontainer">
         <ul className="posts">
           {posts.map((pst) => {
             return (
-              <li key={pst.id}>
+              <li key={pst.id} className={pst.ispublished ? "green" : ""}>
                 <b>{pst.title}</b>
                 <br></br>
                 {pst.body}

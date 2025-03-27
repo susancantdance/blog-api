@@ -24,6 +24,8 @@ function App() {
       });
   }, []);
 
+  const publishedPosts = posts.filter((post) => post.ispublished == true);
+
   return (
     <div>
       <BlogContext.Provider value={{ posts }}>
@@ -33,9 +35,9 @@ function App() {
         // setUser={setUser}
         />
         <h1>Clog (Cat Log)</h1>
-        <div>
+        <div className="postcontainer">
           <ul className="posts">
-            {posts.map((post) => {
+            {publishedPosts.map((post) => {
               return (
                 <li key={post.id}>
                   <b>{post.title}</b>

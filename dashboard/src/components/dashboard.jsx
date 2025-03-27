@@ -8,7 +8,7 @@ function Dashboard() {
   const [post, setPost] = useState(null);
   const [display, setDisplay] = useState("allposts");
   //   const [comments, setComments] = useState(false);
-
+  const isAuthor = localStorage.getItem("author");
   useEffect(() => {
     fetch("http://localhost:3000/posts", {
       method: "GET",
@@ -23,17 +23,21 @@ function Dashboard() {
       });
   }, [display]);
 
-  return (
-    <>
-      {display == "allposts" ? (
-        <AllPosts posts={posts} setPost={setPost} setDisplay={setDisplay} />
-      ) : display == "singlepost" ? (
-        <Post post={post} setDisplay={setDisplay} />
-      ) : display == "comments" ? (
-        <Post post={post} setDisplay={setDisplay} comments={true} />
-      ) : null}
-    </>
-  );
+  if (isAuthor == "true") {
+    return (
+      <>
+        {display == "allposts" ? (
+          <AllPosts posts={posts} setPost={setPost} setDisplay={setDisplay} />
+        ) : display == "singlepost" ? (
+          <Post post={post} setDisplay={setDisplay} />
+        ) : display == "comments" ? (
+          <Post post={post} setDisplay={setDisplay} comments={true} />
+        ) : null}
+      </>
+    );
+  } else {
+    return <h1>you can't be here silly </h1>;
+  }
 }
 
 export { Dashboard };

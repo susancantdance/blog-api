@@ -21,6 +21,8 @@ indexRouter.post(
   //   }
 );
 
+// indexRouter.post("/logout", controller.logout);
+
 // indexRouter.get("/login", (req, res) => {
 //   res.json({ msg: "hey you got something!" });
 // });
@@ -33,6 +35,8 @@ indexRouter.post(
   }),
   controller.postLogin
 );
+
+// indexRouter.post("/logout", controller.logout);
 
 //validate is author
 indexRouter.get("/isauthor", controller.isAuthor);

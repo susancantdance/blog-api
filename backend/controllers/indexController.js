@@ -30,9 +30,24 @@ async function postLogin(req, res, next) {
   console.log("in the postLogin func");
   console.log(req.user);
   jwt.sign({ id: req.user.email }, process.env.SECRET, (err, token) => {
-    res.json({ token });
+    res.json({
+      token,
+      id: req.user.email,
+      isauthor: req.user.isauthor,
+      userid: req.user.id,
+    });
   });
 }
+
+// async function logout(req, res, next) {
+//   console.log("in logout function");
+//   req.logout((err) => {
+//     if (err) {
+//       return next(err);
+//     }
+//     res.json({ msg: "logout successful" });
+//   });
+// }
 
 //is an author
 async function isAuthor(req, res, next) {
@@ -42,20 +57,11 @@ async function isAuthor(req, res, next) {
   res.json(user.isauthor);
 }
 
-// async function logout(req, res, next) {
-//   req.logout((err) => {
-//     if (err) {
-//       return next(err);
-//     }
-//     res.redirect("/login");
-//   });
-// }
-
 module.exports = {
   //   getSignup,
   postSignup,
   postLogin,
   isAuthor,
+  // logout,
   //   getLogin,
-  //   logout,
 };

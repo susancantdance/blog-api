@@ -13,6 +13,8 @@ function Post({ post, setDisplay, comments }) {
 
   console.log(post.id);
 
+  // const [isChecked, setIsChecked] = useState(post.ispublished);
+
   let postComments = [];
 
   if (comments) {
@@ -31,7 +33,8 @@ function Post({ post, setDisplay, comments }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log("HANDLE SUBMIT");
+    console.log(formData);
     if (post.id != null) {
       try {
         const response = await fetch(`http://localhost:3000/posts/${post.id}`, {
@@ -72,7 +75,12 @@ function Post({ post, setDisplay, comments }) {
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.id == "publish") {
+      // setIsChecked(e.target.checked);
+      setFormData({ ...formData, ispublished: e.target.checked });
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
   const deletePost = async () => {
@@ -149,24 +157,22 @@ function Post({ post, setDisplay, comments }) {
                   </button>
                   <div className="publish-checkbox">
                     <span>Published</span>
-                    {post.ispublished == true ? (
+
+                    <>
                       <input
                         className="ckbox"
                         type="checkbox"
-                        value={formData.ispublished}
-                        checked
-                        id="published"
+                        checked={formData.ispublished}
+                        id="publish"
                         name="ispublished"
+                        onChange={handleChange}
                       />
-                    ) : (
                       <input
-                        className="ckbox"
-                        value={formData.ispublished}
-                        type="checkbox"
-                        id="published"
+                        type="hidden"
                         name="ispublished"
-                      />
-                    )}
+                        value={false}
+                      ></input>
+                    </>
                   </div>
                 </>
               )}

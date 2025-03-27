@@ -25,7 +25,7 @@ async function createPost(req, res, next) {
     req.body.title,
     req.body.body,
     +req.body.authorid, //how do we get this?
-    req.body.publish == "checked" //only true if explicitly checking 'publish' box
+    req.body.ispublished
   );
   res.json(newpost);
 }
@@ -36,7 +36,7 @@ async function updatePost(req, res, next) {
     +req.params.postid,
     req.body.title,
     req.body.body,
-    req.body.publish == "checked" //only true if explicitly checking 'publish' box
+    req.body.ispublished
   );
   res.json(updated);
 }
@@ -49,10 +49,16 @@ async function deletePost(req, res, next) {
 
 //create a comment on a blog post
 async function createComment(req, res, next) {
+  console.log("create comment function in queries");
+  console.log("req.body.email");
+  console.log(req.body.email);
+  const id = await db.getUserId(req.body.email);
+  console.log("id");
+  console.log(id.id);
   const comment = await db.createComment(
     +req.params.postid,
     req.body.text,
-    +req.body.userid //this probbaly isn't correct, how do we get userid
+    +id.id //this probbaly isn't correct, how do we get userid
   );
   res.json(comment);
 }

@@ -1,0 +1,36 @@
+BLOG____ 
+
+Truncate blog post on main page
+Link / Page to single blog post to create comment
+Authorization to create comment
+
+delete own comment? 
+edit own comment?
+
+Order of blog posts
+
+API____
+
+handle errors 
+- login
+- signup
+- ?
+
+DASH___
+Page for editing
+    Delete button
+    Publish Button
+    Save Button
+    View All Comments
+        Edit Comment
+        Delete Comment
+Page for creating post (can they be the same?)
+    Delete button
+    Publish Button
+    Save Button
+
+
+
+
+
+

@@ -4,7 +4,7 @@ li {
   border-style: solid;
   border-width: 1px;
   margin: 10px;
-  max-width: 70%;
+  width: 100%;
 }
 
 body {
@@ -20,6 +20,14 @@ h1 {
 }
 
 ul.posts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 75%;
+}
+
+.postcontainer {
   display: flex;
   flex-direction: column;
   align-items: center;
